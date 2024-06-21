@@ -8,40 +8,53 @@ return {
 
     {
         "neovim/nvim-lspconfig",
-        dependencies = {'hrsh7th/cmp-nvim-lsp'},
+        dependencies = { 'hrsh7th/cmp-nvim-lsp' },
         config = function()
             local lspconfig = require("lspconfig")
+            local cmp_nvim_lsp = require('cmp_nvim_lsp')
             
-            local servers = {"clangd"}
-            
-            local capabilities = require('cmp_nvim_lsp').default_capabilities()
-            
+            local capabilities = cmp_nvim_lsp.default_capabilities()
+
+            local on_attach = function(_, bufnr)
+                -- Helper function to set key mappings
+                local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+                local opts = { noremap = true, silent = true }
+
+                -- Go to definition key mapping
+                buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+                -- You can add more LSP-related key mappings here
+            end
+
+            local servers = { "clangd" }
+
             for _, lsp in ipairs(servers) do
-                lspconfig[lsp].setup{capabilities = capabilities}
+                lspconfig[lsp].setup {
+                    capabilities = capabilities,
+                    on_attach = on_attach,
+                }
             end
         end,
     },
 
-    
     {
         "hrsh7th/nvim-cmp",
-        dependencies = {'L3MON4D3/LuaSnip',
-                        'saadparwaiz1/cmp_luasnip',
-                        'hrsh7th/cmp-nvim-lsp',
-                        'hrsh7th/cmp-buffer',
-                       },
-
+        dependencies = {
+            'L3MON4D3/LuaSnip',
+            'saadparwaiz1/cmp_luasnip',
+            'hrsh7th/cmp-nvim-lsp',
+            'hrsh7th/cmp-buffer',
+        },
         config = function()
             local cmp = require("cmp")
             local luasnip = require("luasnip")
+
             cmp.setup({
                 snippet = {
                     expand = function(args)
-                        require("luasnip").lsp_expand(args.body)
+                        luasnip.lsp_expand(args.body)
                     end,
                 },
-
-                mappings = {
+                mapping = cmp.mapping.preset.insert({
                     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-f>"] = cmp.mapping.scroll_docs(4),
                     ["<C-Space>"] = cmp.mapping.complete(),
@@ -50,43 +63,33 @@ return {
                     ["<Tab>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_next_item()
-
-                        elseif require("luasnip").expand_or_jumpable() then
-                            require("luasnip").expand_or_jump()
-                        
+                        elseif luasnip.expand_or_jumpable() then
+                            luasnip.expand_or_jump()
                         else
                             fallback()
                         end
-                    end, {"i", "s"}),
-
+                    end, { "i", "s" }),
                     ["<S-Tab>"] = cmp.mapping(function(fallback)
                         if cmp.visible() then
                             cmp.select_prev_item()
-                        elseif require("luasnip").jumpable(-1) then
-                            require("luasnip").jump(-1)
+                        elseif luasnip.jumpable(-1) then
+                            luasnip.jump(-1)
                         else
                             fallback()
                         end
-                    end, {"i", "s"}),
-                },
-
-                    sources = cmp.config.sources(
-                    {
-                        { name = 'nvim_lsp' },
-                        { name = 'luasnip' }
-                    },
-
-                    {
-                        { name = 'buffer' },
-                    })
-
-                })
-                    
-            end, 
+                    end, { "i", "s" }),
+                }),
+                sources = cmp.config.sources({
+                    { name = 'nvim_lsp' },
+                    { name = 'luasnip' },
+                }, {
+                    { name = 'buffer' },
+                }),
+            })
+        end,
     },
 
     { "L3MON4D3/LuaSnip" },
     { "saadparwaiz1/cmp_luasnip" },
     { "hrsh7th/cmp-buffer" },
-
 }
