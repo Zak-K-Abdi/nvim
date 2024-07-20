@@ -22,6 +22,8 @@ return {
 
                 -- Go to definition key mapping
                 buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+                buf_set_keymap('n', 'gi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+                buf_set_keymap('n', 'gr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
                 -- You can add more LSP-related key mappings here
             end
 
@@ -31,7 +33,6 @@ return {
                 lspconfig[lsp].setup {
                     capabilities = capabilities,
                     on_attach = on_attach,
-                    root_dir = lspconfig.util.root_pattern("build.ninja", "compile_commands.json")
                 }
             end
         end,
