@@ -87,6 +87,9 @@ return {
                 }, {
                     { name = 'buffer' },
                 }),
+                window = {
+                    completion = cmp.config.window.bordered()
+                },
             })
         end,
     },

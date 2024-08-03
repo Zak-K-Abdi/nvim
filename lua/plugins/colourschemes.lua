@@ -17,28 +17,41 @@ return {
     
     ]]
 
+
 --[[    {
-        "ellisonleao/gruvbox.nvim",
-        config = function()
-            local gruvbox = require("gruvbox")
-            gruvbox.setup({
-                terminal_colors = true,
-                contrast = "hard",
-            })
-
-            vim.cmd.colorscheme("gruvbox")
-        end,
-
-    },
-    ]]
-
-    {
         "folke/tokyonight.nvim",
         config = function()
             require("tokyonight").setup({})
             vim.cmd.colorscheme("tokyonight-night")
         end,
     },
+    ]]
+
+--[[    {
+        "2giosangmitom/nightfall.nvim",
+        config = function()
+            require("nightfall").setup({})
+            vim.cmd.colorscheme("nightfall")
+        end
+    },
+    ]]
     
+    {
+        "EdenEast/nightfox.nvim",
+        config = function()
+            require("nightfox").setup({})
+            vim.cmd.colorscheme("carbonfox")
+        end,
+    },
+    
+
+
+--[[    {        
+        "xiantang/darcula-dark.nvim",
+        config = function()
+            vim.cmd.colorscheme("darcula-dark")
+        end
+    },
+    ]]
 }
 
