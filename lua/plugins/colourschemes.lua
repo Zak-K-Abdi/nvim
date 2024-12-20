@@ -14,10 +14,8 @@ return {
             vim.cmd.colorscheme("catppuccin")
         end,
     },
+    ]] 
     
-    ]]
-
-
 --[[    {
         "folke/tokyonight.nvim",
         config = function()
@@ -25,33 +23,33 @@ return {
             vim.cmd.colorscheme("tokyonight-night")
         end,
     },
-    ]]
+   --]] 
 
---[[    {
-        "2giosangmitom/nightfall.nvim",
-        config = function()
-            require("nightfall").setup({})
-            vim.cmd.colorscheme("nightfall")
-        end
-    },
-    ]]
-    
-    {
+--[[   {
         "EdenEast/nightfox.nvim",
         config = function()
             require("nightfox").setup({})
             vim.cmd.colorscheme("carbonfox")
         end,
     },
+    ]]
+
+    {
+        "AlexvZyl/nordic.nvim",
+        config = function()
+            require('nordic').load()
+        end,
+
+    },
     
 
-
---[[    {        
-        "xiantang/darcula-dark.nvim",
+--[[    {
+        "olivercederborg/poimandres.nvim",
         config = function()
-            vim.cmd.colorscheme("darcula-dark")
-        end
+            require('poimandres').setup{}
+            vim.cmd.colorscheme('poimandres')
+        end,
     },
     ]]
-}
 
+}
